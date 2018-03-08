@@ -7,15 +7,17 @@
 
 namespace Stic
 	{
+	enum class Status:int{Success,Failure};
+
 	class Testcase
 		{
 		public:
 			struct Result
 				{
-				Result() noexcept:status(0){}
-				int status;
-				int failure_line;
-				std::string failure_text;
+				Result() noexcept:status(Status::Success){}
+				Status status;
+				int line;
+				std::string message;
 				};
 
 			typedef void (*Callback)(Result& res);

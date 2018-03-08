@@ -4,10 +4,12 @@
 
 #include "stic.hpp"
 
-TESTCASE("Do awsome stuff")
+STIC_TESTCASE("Do awsome stuff")
 	{
-	result.status=1;
+	STIC_ASSERT(1==2);
 	}
 
-TESTCASE("Do other stuff")
-	{}
+STIC_TESTCASE("Do other stuff")
+	{
+	STIC_ASSERT(0==0);
+	}

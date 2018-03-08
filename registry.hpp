@@ -9,6 +9,8 @@
 #include "testcase.hpp"
 #include <algorithm>
 #include <memory>
+#include <vector>
+#include <map>
 
 namespace Stic
 	{
@@ -16,38 +18,43 @@ namespace Stic
 		{
 		public:
 			template<class Logger>
-			int runAllTests(Logger&& logger)
+			Status runAllTests(Logger&& logger)
 				{
-				int status;
-				std::for_each(m_tests.begin(), m_tests.end(), [&logger, &status](Testcase& test)
+				Status status{Status::Success};
+				std::for_each(m_tests.begin(), m_tests.end(), [&logger, &status](std::pair<const std::string, std::vector<Testcase>>& item)
 					{
-					logger.pre(test.name());
-					test.run();
-					logger.post(test.result());
-					status = status==0? test.result().status : status;
+					logger.beginSuite(item.first);
+					std::for_each(item.second.begin(), item.second.end(),[&logger, &status](Testcase& test)
+						{
+						logger.beginTest(test.name());
+						test.run();
+						logger.endTest(test.name(), test.result());
+						status = status==Stic::Status::Success? test.result().status : status;
+						});
+					logger.endSuite(item.first);
 					});
 				return status;
 				}
 
-			void add(Testcase&& test)
-				{m_tests.push_back(std::move(test));}
+			void add(const char* filename, Testcase&& test)
+				{m_tests[filename].push_back(std::move(test));}
 
 		private:
-			std::vector<Testcase> m_tests;
+			std::map<std::string, std::vector<Testcase>> m_tests;
 		};
 
 	class TestRegistry
 		{
 		public:
 			template<class Logger>
-			static int runAllTests(Logger&& logger)
+			static Status runAllTests(Logger&& logger)
 				{return s_registry->runAllTests(std::forward<Logger>(logger));}
 
-			static int add(Testcase&& test)
+			static int add(const char* filename, Testcase&& test)
 				{
 				if(s_registry==nullptr)
 					{s_registry.reset(new Registry);}
-				s_registry->add(std::move(test));
+				s_registry->add(filename, std::move(test));
 				return 0;
 				}
 		private:
