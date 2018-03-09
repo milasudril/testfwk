@@ -16,8 +16,7 @@ STIC_TESTCASE("Working assert")
 
 STIC_TESTCASE("Broken throw")
 	{
-	STIC_ASSERT_THROW(puts("No exception");
-		puts("More than one line"););
+	STIC_ASSERT_THROW(puts("No exception"););
 	}
 
 STIC_TESTCASE("Working throw")
@@ -26,4 +25,17 @@ STIC_TESTCASE("Working throw")
 		puts("This is not going to work...");
 		throw "This is an exception";
 		);
+	}
+
+STIC_TESTCASE("Broken nothrow")
+	{
+	STIC_ASSERT_NOTHROW(
+		puts("This is not going to work...");
+		throw "This is an exception";
+		);
+	}
+
+STIC_TESTCASE("Working nothrow")
+	{
+	STIC_ASSERT_NOTHROW(puts("No exeption"););
 	}

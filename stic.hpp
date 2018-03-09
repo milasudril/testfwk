@@ -34,11 +34,24 @@
 		statements \
 		result.line = __LINE__; \
 		result.status = Stic::Status::Failure; \
-		result.message = std::string("Expected ") + #statements + " to throw exception"; \
+		result.message = std::string("Expected ") + #statements + " to throw an exception"; \
 		return; \
 		} \
 	catch(...) \
 		{}
 
+
+#define STIC_ASSERT_NOTHROW(statements) \
+	try  \
+		{ \
+		statements \
+		} \
+	catch(...) \
+		{ \
+		result.line = __LINE__; \
+		result.status = Stic::Status::Failure; \
+		result.message = std::string("Expected ") + #statements + " to not throw an exception"; \
+		return; \
+		}
 
 #endif
