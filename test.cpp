@@ -39,3 +39,8 @@ STIC_TESTCASE("Working nothrow")
 	{
 	STIC_ASSERT_NOTHROW(puts("No exeption"););
 	}
+
+STIC_TESTCASE("I am dead")
+	{
+	throw "Uncaught exception";
+	}
