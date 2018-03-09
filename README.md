@@ -1,7 +1,7 @@
 # stic
 Simple Test Infrastructure for C++
 
-This is a simple testing framework for C++, especially designed for Maike integration. It is inspired by googletest, but it has no integrated mock system. It features IDE-friendly logging in *file*:*line*: *message* format. Also, test cases can have arbitrary name. For usage, see `test.cpp`. Notice that including `stic/stic.hpp` will pull in an implementation of main to the dependency list. In case one test suite has multiple TU, mark all as type `object`, and add them as dependencies to an application target defined in a stub file, ie
+This is a simple testing framework for C++, especially designed for Maike integration. It is inspired by googletest, but it has no integrated mock system. It features IDE-friendly logging in *file*:*line*: *message* format. Also, test cases can have arbitrary name. For usage, see `test.cpp`. Notice that including `stic.hpp` will pull in an implementation of main to the dependency list. In case one test suite has multiple TU, mark all as type `object`, and add them as dependencies to an application target defined in a stub file, ie
 
     //@	{
     //@	"targets":[{"name":"test","type":"application","dependencies":[{"ref":"foo.o","rel":"implementation"}]}]

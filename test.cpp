@@ -2,7 +2,7 @@
 //@	"targets":[{"name":"test","type":"application"}]
 //@	}
 
-#include "stic.hpp"
+#include "stic.hpp" //Or add the directory to your stic submodule, ie "stic/stic.hpp" (works due to -iquote.)
 
 STIC_TESTCASE("Broken assert")
 	{
