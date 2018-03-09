@@ -28,4 +28,17 @@
 		return; \
 		}
 
+#define STIC_ASSERT_THROW(statements) \
+	try  \
+		{ \
+		statements \
+		result.line = __LINE__; \
+		result.status = Stic::Status::Failure; \
+		result.message = std::string("Expected ") + #statements + " to throw exception"; \
+		return; \
+		} \
+	catch(...) \
+		{}
+
+
 #endif
