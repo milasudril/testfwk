@@ -16,13 +16,13 @@ STIC_TESTCASE("Working assert")
 
 STIC_TESTCASE("Broken throw")
 	{
-	STIC_ASSERT_THROW(puts("No exception"););
+	STIC_ASSERT_THROW(fputs("No exception\n",stderr););
 	}
 
 STIC_TESTCASE("Working throw")
 	{
 	STIC_ASSERT_THROW(
-		puts("This is not going to work...");
+		fputs("This is not going to work...\n",stderr);
 		throw "This is an exception";
 		);
 	}
@@ -30,14 +30,14 @@ STIC_TESTCASE("Working throw")
 STIC_TESTCASE("Broken nothrow")
 	{
 	STIC_ASSERT_NOTHROW(
-		puts("This is not going to work...");
+		fputs("This is not going to work...\n",stderr);
 		throw "This is an exception";
 		);
 	}
 
 STIC_TESTCASE("Working nothrow")
 	{
-	STIC_ASSERT_NOTHROW(puts("No exeption"););
+	STIC_ASSERT_NOTHROW(fputs("No exeption\n",stderr););
 	}
 
 STIC_TESTCASE("I am dead")

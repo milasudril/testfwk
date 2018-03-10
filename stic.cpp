@@ -13,13 +13,13 @@ namespace
 			void beginSuite(const std::string& name)
 				{
 				r_suite=&name;
-				fprintf(stdout, "\n\nRunning tests from %s\n\n", r_suite->c_str());
+				fprintf(stderr, "\n\nRunning tests from %s\n\n", r_suite->c_str());
 				}
 
 			void beginTest(const std::string& name)
 				{
-				fprintf(stdout,"Running %s...\n", name.c_str());
-				fflush(stdout);
+				fprintf(stderr,"Running %s...\n", name.c_str());
+				fflush(stderr);
 				}
 
 			void endTest(const std::string&, const Stic::Testcase::Result& result)
@@ -28,15 +28,15 @@ namespace
 					{fprintf(stderr,"%s:%d: error: %s\n", r_suite->c_str(), result.line, result.message.c_str());}
 				else
 					{
-					fprintf(stdout,"Success\n");
-					fflush(stdout);
+					fprintf(stderr,"Success\n");
+					fflush(stderr);
 					}
 				}
 
 			void endSuite(const std::string&)
 				{
-				fprintf(stdout,"\n");
-				fflush(stdout);
+				fprintf(stderr,"\n");
+				fflush(stderr);
 				}
 
 		private:
