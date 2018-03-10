@@ -1,5 +1,5 @@
 //@	{
-//@	"targets":[{"name":"test","type":"application"}]
+//@	"targets":[{"name":"test","type":"application","autorun":1}]
 //@	}
 
 #include "stic.hpp" //Or add the directory to your stic submodule, ie "stic/stic.hpp" (works due to -iquote.)
