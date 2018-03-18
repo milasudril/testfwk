@@ -1,5 +1,15 @@
 //@	{
-//@	"targets":[{"name":"test","type":"application","autorun":1}]
+//@	"targets":
+//@		[{
+//@		"name":"test",
+//@		"type":"application",
+//@		"autorun":1,
+//@		"cxxoptions_local":
+//@			{
+//@			"autorun_launcher":
+//@				{"name":"valgrind","args":["{target}"]}
+//@			}
+//@		}]
 //@	}
 
 #include "stic.hpp" //Or add the directory to your stic submodule, ie "stic/stic.hpp" (works due to -iquote.)

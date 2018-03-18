@@ -14,30 +14,31 @@ namespace Stic
 		public:
 			struct Result
 				{
+				explicit Result(int line, Status status, std::string&& message) noexcept:
+					line(line), status(status), message(std::move(message))
+					{}
+
 				Result() noexcept:status(Status::Success){}
-				Status status;
+
 				int line;
+				Status status;
 				std::string message;
 				};
 
-			typedef void (*Callback)(Result& res);
+			typedef void (*Callback)();
 
 			explicit Testcase(const char* name, Callback cb): m_name(name), m_callback(cb)
 				{}
 
 			void run()
-				{m_callback(m_result);}
+				{m_callback();}
 
 			const char* name() const noexcept
 				{return m_name.c_str();}
 
-			const Result& result() const noexcept
-				{return m_result;}
-
 		private:
 			std::string m_name;
 			Callback m_callback;
-			Result m_result;
 		};
 	}
 

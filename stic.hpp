@@ -15,28 +15,24 @@
 	STIC_COMBINE(identifier, n)
 
 #define STIC_TESTCASE(name) \
-	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) (Stic::Testcase::Result& result); \
+	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) (); \
 	static auto STIC_MAKE_UNIQUE_NAME(_stic_dummy, __LINE__) = Stic::TestRegistry::add(__FILE__,Stic::Testcase{name, STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__)}); \
-	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) (Stic::Testcase::Result& result)
+	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) ()
 
 #define STIC_ASSERT(expression) \
 	if(!(expression)) \
 		{ \
-		result.line = __LINE__; \
-		result.status = Stic::Status::Failure; \
-		result.message = std::string("Expected ") + #expression; \
-		return; \
+		throw Stic::Testcase::Result{__LINE__, Stic::Status::Failure, std::string("Expected ") + #expression}; \
 		}
 
 #define STIC_ASSERT_THROW(statements) \
 	try  \
 		{ \
 		statements \
-		result.line = __LINE__; \
-		result.status = Stic::Status::Failure; \
-		result.message = std::string("Expected ") + #statements + " to throw an exception"; \
-		return; \
+		throw Stic::Testcase::Result{__LINE__, Stic::Status::Failure, std::string("Expected ") + #statements + " to throw an exception"}; \
 		} \
+	catch(const Stic::Testcase::Result& res) \
+		{throw;}\
 	catch(...) \
 		{}
 
@@ -48,10 +44,7 @@
 		} \
 	catch(...) \
 		{ \
-		result.line = __LINE__; \
-		result.status = Stic::Status::Failure; \
-		result.message = std::string("Expected ") + #statements + " to not throw an exception"; \
-		return; \
+		throw Stic::Testcase::Result{__LINE__, Stic::Status::Failure, std::string("Expected ") + #statements + " to not throw an exception"}; \
 		}
 
 #endif

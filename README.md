@@ -16,4 +16,4 @@ STIC includes the following macros:
   * `STIC_ASSERT_THROW(statements)` - Log and error and continue to the next testcase if statmets does not throw an exception
   * `STIC_ASSERT_NOTHROW(statements)` - Log and error and continue to the next testcase if statmets does throw an exception
 
-STIC will treat any uncaught exception as an error, and thus, it is possible to see unexpected exceptions without `STIC_ASSERT_NOTHROW`. However, using `STIC_ASSERT_NOTHROW` will give you a faster way of finding the testcase that threw the exception.
+It is possible to use these macros in a non-void function, as they use exceptions insstad of an empty return. STIC will treat any uncaught exception as an error, and thus, it is possible to see unexpected exceptions without `STIC_ASSERT_NOTHROW`. However, using `STIC_ASSERT_NOTHROW` will give you a faster way of finding the testcase that threw the exception.

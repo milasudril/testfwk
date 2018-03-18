@@ -14,6 +14,7 @@ namespace
 				{
 				r_suite=&name;
 				fprintf(stderr, "\n\nRunning tests from %s\n\n", r_suite->c_str());
+				fflush(stderr);
 				}
 
 			void beginTest(const std::string& name)
@@ -23,21 +24,13 @@ namespace
 				}
 
 			void endTest(const std::string&, const Stic::Testcase::Result& result)
-				{
-				if(result.status==Stic::Status::Failure)
-					{fprintf(stderr,"%s:%d: error: %s\n", r_suite->c_str(), result.line, result.message.c_str());}
-				else
-					{
-					fprintf(stderr,"Success\n");
-					fflush(stderr);
-					}
-				}
+				{fprintf(stderr,"%s:%d: error: %s\n", r_suite->c_str(), result.line, result.message.c_str());}
+
+			void endTest(const std::string&)
+				{fprintf(stderr,"Success\n");}
 
 			void endSuite(const std::string&)
-				{
-				fprintf(stderr,"\n");
-				fflush(stderr);
-				}
+				{fprintf(stderr,"\n");}
 
 		private:
 			const std::string* r_suite;

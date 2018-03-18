@@ -27,9 +27,18 @@ namespace Stic
 					std::for_each(item.second.begin(), item.second.end(),[&logger, &status](Testcase& test)
 						{
 						logger.beginTest(test.name());
-						test.run();
-						logger.endTest(test.name(), test.result());
-						status = status==Stic::Status::Success? test.result().status : status;
+						try
+							{
+							test.run();
+							logger.endTest(test.name());
+							}
+						catch(const Testcase::Result& result)
+							{
+							logger.endTest(test.name(), result);
+							status=result.status;
+							}
+						catch(...)
+							{throw;}
 						});
 					logger.endSuite(item.first);
 					});
