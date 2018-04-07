@@ -16,8 +16,16 @@
 
 #define STIC_TESTCASE(name) \
 	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) (); \
-	static auto STIC_MAKE_UNIQUE_NAME(_stic_dummy, __LINE__) = Stic::TestRegistry::add(__FILE__,Stic::Testcase{name, STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__)}); \
+	auto STIC_MAKE_UNIQUE_NAME(_stic_dummy, __LINE__) = \
+		Stic::TestRegistry::add(__FILE__,Stic::Testcase{name, STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__),__LINE__}); \
 	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) ()
+
+#define STIC_TESTCASE_SHOULD_FAIL(name) \
+	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) (); \
+	auto STIC_MAKE_UNIQUE_NAME(_stic_dummy, __LINE__) = \
+		Stic::TestRegistry::add(__FILE__,Stic::Testcase{name, STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__),__LINE__,Stic::Testcase::ShouldFail::Yes}); \
+	static void STIC_MAKE_UNIQUE_NAME(_stic_testcase, __LINE__) ()
+
 
 #define STIC_ASSERT(expression) \
 	if(!(expression)) \
