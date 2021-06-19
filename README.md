@@ -1,19 +1,38 @@
-# stic
-Simple Test Infrastructure for C++
+# TestFwk
 
-This is a simple testing framework for C++, especially designed for Maike integration. It is inspired by googletest, but it has no integrated mock system. It features IDE-friendly logging in *file*:*line*: *message* format. Also, test cases can have arbitrary name. For usage, see `test.cpp`. Notice that including `stic.hpp` will pull in an implementation of main to the dependency list. In case one test suite has multiple TU, mark all as type `object`, and add them as dependencies to an application target defined in a stub file, ie
+This is a minimalistic testing framework for C++, especially designed for Maike integration. It features IDE-friendly logging in `file:line: message` format.
 
-    //@	{
-    //@	"targets":[{"name":"test","type":"application","dependencies":[{"ref":"foo.o","rel":"implementation"}]}]
-    //@	}
+## Features
 
-    // This file is empty, as all functions are defined in foo.o, and its dependencies.
+TestFwk has the following features:
 
-STIC includes the following macros:
+ * *Small*. This means that there are no advanced features such as death tests
+ * file:line: message error output on stderr
+ * An empty test suite will issue a warning
+ * The REQUIRE macro (similar to gtest ASSERT) works from a non-void function, though it will terminate the testcase.
 
-  * `STIC_TESTCASE("name") {/*code*/}` - Defines a testcase
-  * `STIC_ASSERT(expression)` - Log an error and continue to the next testcase if expression is false
-  * `STIC_ASSERT_THROW(statements)` - Log and error and continue to the next testcase if statmets does not throw an exception
-  * `STIC_ASSERT_NOTHROW(statements)` - Log and error and continue to the next testcase if statmets does throw an exception
+## How to use TestFwk
 
-It is possible to use these macros in a non-void function, as they use exceptions insstad of an empty return. STIC will treat any uncaught exception as an error, and thus, it is possible to see unexpected exceptions without `STIC_ASSERT_NOTHROW`. However, using `STIC_ASSERT_NOTHROW` will give you a faster way of finding the testcase that threw the exception.
+The recommended way of using TestFwk in your project is to keep it as a git submodule. If properly configured, Maike pickup the test driver, and testcases should run automatically during the build job. For usage example, see `test.test.cpp`. Notice that including `testfwk.hpp` will pull in an implementation of `main` and add it to the dependency list. Also, see `maikeconfig.json` for a build configuration. For reference, all test macros are available in `validation.hpp`.
+
+## Sample output
+
+### Stdout
+
+```
+✓ SuccessfulTestcase (test.test.cpp:5)
+✗ FailingTestcase (test.test.cpp:10)
+✗ RequireFromNonVoidFunctionA (test.test.cpp:15)
+✓ RequireFromNonVoidFunctionB (test.test.cpp:29)
+Error: 2 of 4 testcases failed
+```
+
+### Stderr
+
+```
+test.test.cpp:12: error: Expected 1 == 2, but 1 == 1, and 2 == 2
+Error: Testcase failed
+test.test.cpp:19: error: Expected val != 0, but val == 0, and 0 == 0
+Error: Testcase failed
+Error: 2 of 4 testcases failed
+```

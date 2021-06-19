@@ -1,64 +1,62 @@
-//@	{"targets":[{"name":"testcase.hpp","type":"include"}]}
+#ifndef TESTFWK_TESTCASE_HPP
+#define TESTFWK_TESTCASE_HPP
 
-#ifndef STIC_TESTCASE_HPP
-#define STIC_TESTCASE_HPP
+#include <cstdio>
+#include <stdexcept>
 
-#include <string>
-
-namespace Stic
-	{
-	enum class Status:int{Success,Failure};
-
+namespace TestFwk
+{
 	class Testcase
+	{
+	public:
+		explicit Testcase(char const* name, char const* file, int line):
+			m_name{name},
+			m_file{file},
+			m_line{line},
+			m_failed{false}
 		{
-		public:
-			enum class ShouldFail:int{No, Yes};
-			struct Result
-				{
-				explicit Result(int line, Status status, std::string&& message) noexcept:
-					line(line), status(status), message(std::move(message))
-					{}
+		}
 
-				Result() noexcept:status(Status::Success){}
+		virtual ~Testcase()
+		{
+		}
 
-				int line;
-				Status status;
-				std::string message;
-				};
+		void testcaseFailed()
+		{
+			m_failed = true;
+		}
 
-			typedef void (*Callback)();
+		bool failed() const
+		{
+			return m_failed;
+		}
 
-			explicit Testcase(const char* name, Callback cb, int line, ShouldFail should_fail=ShouldFail::No):
-				m_name(name), m_callback(cb), m_line(line), m_should_fail(should_fail)
-				{}
+		bool run()
+		{
+			try
+			{
+				doRun();
+			}
+			catch(std::exception const& e)
+			{
+				fprintf(stderr, "%s:%d: error: %s\n", m_file, m_line, e.what());
+				testcaseFailed();
+			}
+			catch(...)
+			{
+				fprintf(stderr, "%s:%d: error: %s\n", m_file, m_line, "Exception thrown");
+				testcaseFailed();
+			}
+			printf("%s %s (%s:%d)\n", m_failed? "✗":"✓", m_name, m_file, m_line);
+			return !m_failed;
+		}
 
-			void run()
-				{
-				if(m_should_fail == ShouldFail::Yes)
-					{
-					try
-						{
-						m_callback();
-						throw Result(m_line, Status::Failure, "Testcase did not fail");
-						}
-					catch(...)
-						{}
-					}
-				else
-					{m_callback();}
-				}
-
-			const char* name() const noexcept
-				{return m_name.c_str();}
-
-		private:
-			std::string m_name;
-			Callback m_callback;
-			int m_line;
-			ShouldFail m_should_fail;
-		};
-	}
-
+	private:
+		virtual void doRun() = 0;
+		char const* m_name;
+		char const* m_file;
+		int m_line;
+		bool m_failed;
+	};
+}
 #endif
-
-
