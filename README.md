@@ -31,8 +31,9 @@ The recommended way of using TestFwk in your project is to keep it as a git subm
 ```
 test.test.cpp:12: error: Required 1 == 2, but 1 == 1, and 2 == 2
 test.test.cpp:10: error: Requirement not satisfied. Testcase aborted.
+test.test.cpp:10: error: Testcase failed
 test.test.cpp:19: error: Required val != 0, but val == 0, and 0 == 0
 test.test.cpp:15: error: Requirement not satisfied. Testcase aborted.
+test.test.cpp:15: error: Testcase failed
 Error: 2 of 4 testcases failed
-
 ```

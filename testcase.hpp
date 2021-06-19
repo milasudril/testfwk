@@ -47,6 +47,10 @@ namespace TestFwk
 				fprintf(stderr, "%s:%d: error: %s\n", m_file, m_line, "Exception thrown");
 				testcaseFailed();
 			}
+			if(m_failed)
+			{
+				fprintf(stderr, "%s:%d: error: Testcase failed\n", m_file, m_line);
+			}
 			printf("%s %s (%s:%d)\n", m_failed? "✗":"✓", m_name, m_file, m_line);
 			return !m_failed;
 		}
