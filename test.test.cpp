@@ -7,9 +7,10 @@ TESTCASE(SuccessfulTestcase)
 	EXPECT_OP(1, ==, 1);
 }
 
+#if 0
 TESTCASE(FailingTestcase)
 {
-	REQUIRE_OP(1, ==, 2);
+	EXPECT_OP(1, ==, 2);
 }
 
 TESTCASE(RequireFromNonVoidFunctionA)
@@ -25,6 +26,7 @@ TESTCASE(RequireFromNonVoidFunctionA)
 	// Not run
 	EXPECT_EQ(test(2), 0.5);
 }
+#endif
 
 TESTCASE(RequireFromNonVoidFunctionB)
 {
