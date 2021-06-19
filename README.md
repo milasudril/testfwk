@@ -24,15 +24,15 @@ The recommended way of using TestFwk in your project is to keep it as a git subm
 ✗ FailingTestcase (test.test.cpp:10)
 ✗ RequireFromNonVoidFunctionA (test.test.cpp:15)
 ✓ RequireFromNonVoidFunctionB (test.test.cpp:29)
-Error: 2 of 4 testcases failed
 ```
 
 ### Stderr
 
 ```
-test.test.cpp:12: error: Expected 1 == 2, but 1 == 1, and 2 == 2
-Error: Testcase failed
-test.test.cpp:19: error: Expected val != 0, but val == 0, and 0 == 0
-Error: Testcase failed
+test.test.cpp:12: error: Required 1 == 2, but 1 == 1, and 2 == 2
+test.test.cpp:10: error: Requirement not satisfied. Testcase aborted.
+test.test.cpp:19: error: Required val != 0, but val == 0, and 0 == 0
+test.test.cpp:15: error: Requirement not satisfied. Testcase aborted.
 Error: 2 of 4 testcases failed
+
 ```
