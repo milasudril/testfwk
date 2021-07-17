@@ -35,16 +35,19 @@ namespace TestFwk
 }
 
 #define TESTCASE(name) \
-class name:public TestFwk::Testcase \
+namespace Testcases \
 { \
-public: \
-	using Testcase::Testcase; \
-	void doRun() override; \
-}; \
-namespace \
-{ \
-	TestFwk::detail::TestcaseCreator name ## dummy {#name, __FILE__, __LINE__, TestFwk::detail::Empty<name>{}}; \
+	class name:public TestFwk::Testcase \
+	{ \
+	public: \
+		using Testcase::Testcase; \
+		void doRun() override; \
+	}; \
+	namespace \
+	{ \
+		TestFwk::detail::TestcaseCreator name ## dummy {#name, __FILE__, __LINE__, TestFwk::detail::Empty<name>{}}; \
+	} \
 } \
-void name::doRun()
+void Testcases::name::doRun()
 
 #endif
