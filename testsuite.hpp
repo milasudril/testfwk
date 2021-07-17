@@ -1,4 +1,4 @@
-//@	{"dependencies_extra":[{"ref":"testsuite.o", "rel":"implementation"}]}
+//@	{"dependencies_extra":[{"ref":"./testsuite.o", "rel":"implementation"}]}
 
 #ifndef TESTFWK_TESTSUITE_HPP
 #define TESTFWK_TESTSUITE_HPP

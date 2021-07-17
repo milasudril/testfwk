@@ -15,12 +15,47 @@ namespace TestFwk::detail
 
 	std::string const& format(std::string const&&) = delete;
 
+	template<class T, size_t N>
+	std::string to_string(std::array<T, N> const& vals);
+
+	template<class T, class U>
+	std::string to_string(std::pair<T, U> const& x)
+	{
+		using std::to_string;
+		using TestFwk::detail::to_string;
+		std::string ret{"("};
+		ret += to_string(x.first);
+		ret += ", ";
+		ret += to_string(x.second);
+		ret += ")";
+		return ret;
+	}
+
+	template<class T, size_t N>
+	std::string to_string(std::array<T, N> const& vals)
+	{
+		using std::to_string;
+		using TestFwk::detail::to_string;
+		std::string ret{"["};
+		for(size_t k = 0; k < N; ++k)
+		{
+			ret += to_string(vals[k]);
+			if( k != N - 1)
+			{ ret += ", ";}
+		}
+		ret += "]";
+		return ret;
+	}
+
 	template<class T>
 	std::string format(T const& value)
 	{
 		using std::to_string;
+		using TestFwk::detail::to_string;
 		return to_string(value);
 	}
+
+
 }
 
 #define TESTFWK_STRINGIFY(x) #x
