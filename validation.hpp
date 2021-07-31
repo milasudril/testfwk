@@ -47,6 +47,11 @@ namespace TestFwk::detail
 		return ret;
 	}
 
+	std::string to_string(void const* val)
+	{
+		return std::to_string(reinterpret_cast<intptr_t>(val));
+	}
+
 	template<class T>
 	std::string format(T const& value)
 	{
@@ -54,7 +59,6 @@ namespace TestFwk::detail
 		using TestFwk::detail::to_string;
 		return to_string(value);
 	}
-
 
 }
 
