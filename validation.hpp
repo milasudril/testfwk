@@ -3,8 +3,10 @@
 
 #include "./testsuite.hpp"
 
-#include <string>
 #include <cstdio>
+#include <string>
+#include <filesystem>
+#include <vector>
 
 namespace TestFwk::detail
 {
@@ -17,6 +19,16 @@ namespace TestFwk::detail
 
 	template<class T, size_t N>
 	std::string to_string(std::array<T, N> const& vals);
+
+	std::string to_string(std::byte val)
+	{
+		return std::to_string(static_cast<uint32_t>(val));
+	}
+
+	std::string to_string(std::filesystem::path const& path)
+	{
+		return path.string();
+	}
 
 	template<class T, class U>
 	std::string to_string(std::pair<T, U> const& x)
@@ -46,6 +58,24 @@ namespace TestFwk::detail
 		ret += "]";
 		return ret;
 	}
+
+	template<class T>
+	std::string to_string(std::vector<T> const& vals)
+	{
+		using std::to_string;
+		using TestFwk::detail::to_string;
+		auto const n = std::size(vals);
+		std::string ret{"["};
+		for(size_t k = 0; k < n; ++k)
+		{
+			ret += to_string(vals[k]);
+			if( k != n - 1)
+			{ ret += ", ";}
+		}
+		ret += "]";
+		return ret;
+	}
+
 
 	std::string to_string(void const* val)
 	{
