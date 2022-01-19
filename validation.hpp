@@ -10,25 +10,19 @@
 
 namespace TestFwk::detail
 {
-	std::string const& format(std::string const& str)
-	{
-		return str;
-	}
+	inline std::string const& format(std::string const& str) { return str; }
 
-	std::string const& format(std::string const&&) = delete;
+	inline std::string const& format(std::string const&&) = delete;
 
 	template<class T, size_t N>
 	std::string to_string(std::array<T, N> const& vals);
 
-	std::string to_string(std::byte val)
+	inline std::string to_string(std::byte val)
 	{
 		return std::to_string(static_cast<uint32_t>(val));
 	}
 
-	std::string to_string(std::filesystem::path const& path)
-	{
-		return path.string();
-	}
+	inline std::string to_string(std::filesystem::path const& path) { return path.string(); }
 
 	template<class T, class U>
 	std::string to_string(std::pair<T, U> const& x)
@@ -52,8 +46,7 @@ namespace TestFwk::detail
 		for(size_t k = 0; k < N; ++k)
 		{
 			ret += to_string(vals[k]);
-			if( k != N - 1)
-			{ ret += ", ";}
+			if(k != N - 1) { ret += ", "; }
 		}
 		ret += "]";
 		return ret;
@@ -69,15 +62,14 @@ namespace TestFwk::detail
 		for(size_t k = 0; k < n; ++k)
 		{
 			ret += to_string(vals[k]);
-			if( k != n - 1)
-			{ ret += ", ";}
+			if(k != n - 1) { ret += ", "; }
 		}
 		ret += "]";
 		return ret;
 	}
 
 
-	std::string to_string(void const* val)
+	inline std::string to_string(void const* val)
 	{
 		return std::to_string(reinterpret_cast<intptr_t>(val));
 	}
@@ -95,14 +87,17 @@ namespace TestFwk::detail
 #define TESTFWK_STRINGIFY(x) #x
 #define TESTFWK_TOSTRING(x) TESTFWK_STRINGIFY(x)
 
-#define CHECK_OP(a, op, b, type) \
-	if(!((a) op (b))) \
-	{ \
-		fprintf(stderr, "%s%s%s%s\n", \
-			__FILE__ ":" TESTFWK_TOSTRING(__LINE__) ": error: " type " " #a " " #op " " #b ", but " #a " == ", \
-			TestFwk::detail::format(a).c_str(), \
-			", and " #b " == ", TestFwk::detail::format(b).c_str()); \
-		TestFwk::currentTestcase->testcaseFailed(); \
+#define CHECK_OP(a, op, b, type)                                                                   \
+	if(!((a)op(b)))                                                                                \
+	{                                                                                              \
+		fprintf(stderr,                                                                            \
+		        "%s%s%s%s\n",                                                                      \
+		        __FILE__ ":" TESTFWK_TOSTRING(__LINE__) ": error: " type " " #a " " #op " " #b     \
+		                                                ", but " #a " == ",                        \
+		        TestFwk::detail::format(a).c_str(),                                                \
+		        ", and " #b " == ",                                                                \
+		        TestFwk::detail::format(b).c_str());                                               \
+		TestFwk::currentTestcase->testcaseFailed();                                                \
 	}
 
 #define EXPECT_OP(a, op, b) CHECK_OP(a, op, b, "Expected")
@@ -114,12 +109,9 @@ namespace TestFwk::detail
 #define EXPECT_GE(a, b) EXPECT_OP(a, >=, b)
 #define EXPECT_LE(a, b) EXPECT_OP(a, <=, b)
 
-#define REQUIRE_OP(a, op, b) \
-	CHECK_OP(a, op, b, "Required") \
-	if(!((a) op (b))) \
-	{ \
-		throw std::runtime_error{"Requirement not satisfied. Testcase aborted."}; \
-	}
+#define REQUIRE_OP(a, op, b)                                                                       \
+	CHECK_OP(a, op, b, "Required")                                                                 \
+	if(!((a)op(b))) { throw std::runtime_error{"Requirement not satisfied. Testcase aborted."}; }
 
 #define REQUIRE_EQ(a, b) REQUIRE_OP(a, ==, b)
 #define REQUIRE_LT(a, b) REQUIRE_OP(a, <, b)

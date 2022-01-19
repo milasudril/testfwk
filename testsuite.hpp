@@ -34,20 +34,23 @@ namespace TestFwk
 	extern Testcase* currentTestcase;
 }
 
-#define TESTCASE(name) \
-namespace Testcases \
-{ \
-	class name:public TestFwk::Testcase \
-	{ \
-	public: \
-		using Testcase::Testcase; \
-		void doRun() override; \
-	}; \
-	namespace \
-	{ \
-		TestFwk::detail::TestcaseCreator name ## dummy {#name, __FILE__, __LINE__, TestFwk::detail::Empty<name>{}}; \
-	} \
-} \
-void Testcases::name::doRun()
+#define MAKE_TC_NAME(name) name
+
+#define TESTCASE(name)                                                                             \
+	namespace Testcases                                                                            \
+	{                                                                                              \
+		class MAKE_TC_NAME(name): public TestFwk::Testcase                                         \
+		{                                                                                          \
+		public:                                                                                    \
+			using Testcase::Testcase;                                                              \
+			void doRun() override;                                                                 \
+		};                                                                                         \
+		namespace                                                                                  \
+		{                                                                                          \
+			TestFwk::detail::TestcaseCreator name##dummy{                                          \
+			    #name, __FILE__, __LINE__, TestFwk::detail::Empty<name>{}};                        \
+		}                                                                                          \
+	}                                                                                              \
+	void Testcases::name::doRun()
 
 #endif

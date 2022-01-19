@@ -2,10 +2,7 @@
 
 #include "./testfwk.hpp"
 
-TESTCASE(SuccessfulTestcase)
-{
-	EXPECT_OP(1, ==, 1);
-}
+TESTCASE(SuccessfulTestcase) { EXPECT_OP(1, ==, 1); }
 
 #if 0
 TESTCASE(FailingTestcase)
@@ -33,7 +30,7 @@ TESTCASE(RequireFromNonVoidFunctionB)
 	auto test = [](int val)
 	{
 		REQUIRE_NE(val, 0);
-		return 1.0/val;
+		return 1.0 / val;
 	};
 
 	EXPECT_EQ(test(2), 0.5);

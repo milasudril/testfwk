@@ -23,18 +23,23 @@ TestFwk::Testcase* TestFwk::currentTestcase;
 
 int main()
 {
-	if(testcases().size() == 0)
-	{
-		fprintf(stderr, "Warning: Testsuite has no testcases\n");
-	}
+	if(testcases().size() == 0) { fprintf(stderr, "Warning: Testsuite has no testcases\n"); }
 
-	size_t n = std::count_if(std::begin(testcases()), std::end(testcases()), [](auto const& item) {
-		TestFwk::currentTestcase = item.get();
-		return item->run();
-	});
+	size_t n = std::count_if(std::begin(testcases()),
+	                         std::end(testcases()),
+	                         [](auto const& item)
+	                         {
+		                         TestFwk::currentTestcase = item.get();
+		                         return item->run();
+	                         });
 
 	if(n != testcases().size())
-	{ fprintf(stderr, "Error: %zu of %zu testcases failed\n", testcases().size() - n, testcases().size()); }
+	{
+		fprintf(stderr,
+		        "Error: %zu of %zu testcases failed\n",
+		        testcases().size() - n,
+		        testcases().size());
+	}
 
 	return !(n == testcases().size());
 }
