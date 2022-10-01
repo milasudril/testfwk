@@ -26,7 +26,7 @@ namespace TestFwk::detail
 	inline std::string to_string(std::filesystem::path const& path) { return path.string(); }
 
 	template<class T>
-	to_string(std::complex<T> val)
+	std::string to_string(std::complex<T> val)
 	{
 		using std::to_string;
 		return to_string(val.real()).append(" + ").append(to_string(val.imag())).append("i");
