@@ -25,13 +25,13 @@ int main()
 {
 	if(testcases().size() == 0) { fprintf(stderr, "Warning: Testsuite has no testcases\n"); }
 
-	size_t n = std::count_if(std::begin(testcases()),
+	auto const n = static_cast<size_t>(std::count_if(std::begin(testcases()),
 	                         std::end(testcases()),
 	                         [](auto const& item)
 	                         {
 		                         TestFwk::currentTestcase = item.get();
 		                         return item->run();
-	                         });
+	                         }));
 
 	if(n != testcases().size())
 	{
