@@ -13,6 +13,11 @@ namespace TestFwk::detail
 {
 	inline std::string const& format(std::string const& str) { return str; }
 
+	template<class T>
+	std::string to_string(T const&)
+	{ return std::string{};}
+
+
 	inline std::string const& format(std::string const&&) = delete;
 
 	template<class T, size_t N>
