@@ -17,7 +17,6 @@ namespace TestFwk::detail
 	std::string to_string(T const&)
 	{ return std::string{};}
 
-
 	inline std::string const& format(std::string const&&) = delete;
 
 	template<class T, size_t N>
@@ -26,6 +25,11 @@ namespace TestFwk::detail
 	inline std::string to_string(std::byte val)
 	{
 		return std::to_string(static_cast<uint32_t>(val));
+	}
+
+	inline std::string to_string(bool val)
+	{
+		return val? "true":"false";
 	}
 
 	inline std::string to_string(std::filesystem::path const& path) { return path.string(); }
