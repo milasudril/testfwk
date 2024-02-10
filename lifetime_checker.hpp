@@ -12,14 +12,14 @@ namespace testfwk
 		template<class Type>
  		void announce_ctor(Type const* obj)
 		{
-			if(m_remaining_init_expects == 0)
+			if(m_remaining_ctor_expects == 0)
 			{
 				fprintf(stderr, "error: %p unexpected ctor\n", obj);
 				fflush(stderr);
 				std::terminate();
 			}
 
-			--m_remaining_init_expects;
+			--m_remaining_ctor_expects;
 			++m_remaining_dtor_expects;
 		}
 
@@ -33,7 +33,6 @@ namespace testfwk
 				std::terminate();
 			}
 
-			--m_remaining_init_expects;
 			--m_remaining_dtor_expects;
 		}
 
@@ -93,8 +92,8 @@ namespace testfwk
 			++m_remaining_dtor_expects;
 		}
 
-		void expect_object_initiated()
-		{	++m_remaining_init_expects; }
+		void expect_ctor()
+		{	++m_remaining_ctor_expects; }
 
 		void expect_move_ctor()
 		{ ++m_remaining_move_ctor_expects; }
@@ -102,7 +101,7 @@ namespace testfwk
 		void expect_copy_ctor()
 		{ ++m_remaining_copy_ctor_expects; }
 
-		void exepct_move_assign()
+		void expect_move_assign()
 		{ ++m_remaining_move_assign_expects; }
 
 		void expect_copy_assign()
@@ -110,9 +109,9 @@ namespace testfwk
 
 		~object_registry()
 		{
-			if(m_remaining_init_expects != 0)
+			if(m_remaining_ctor_expects != 0)
 			{
-				fprintf(stderr, "error: Exepcted %zu more objects\n", m_remaining_init_expects);
+				fprintf(stderr, "error: Exepcted %zu more objects\n", m_remaining_ctor_expects);
 				fflush(stderr);
 				std::terminate();
 			}
@@ -154,7 +153,7 @@ namespace testfwk
 		}
 
 	private:
-		size_t m_remaining_init_expects{};
+		size_t m_remaining_ctor_expects{};
 		size_t m_remaining_move_ctor_expects{};
 		size_t m_remaining_copy_ctor_expects{};
 		size_t m_remaining_move_assign_expects{};
@@ -203,7 +202,7 @@ namespace testfwk
 		auto operator<=>(lifetime_checker const& other) const = default;
 
 		static void expect_object_ctor()
-		{	s_known_objects.expect_object_ctor(); }
+		{	s_known_objects.expect_ctor(); }
 
 		static void expect_move_ctor()
 		{ s_known_objects.expect_move_ctor(); }
