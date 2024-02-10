@@ -10,17 +10,31 @@ namespace testfwk
 	{
 	public:
 		template<class Type>
-		void announce_object_initiated(Type const* obj)
+ 		void announce_ctor(Type const* obj)
 		{
 			if(m_remaining_init_expects == 0)
 			{
-				fprintf(stderr, "error: %p unexpected object\n");
+				fprintf(stderr, "error: %p unexpected ctor\n", obj);
 				fflush(stderr);
 				std::terminate();
 			}
 
 			--m_remaining_init_expects;
 			++m_remaining_dtor_expects;
+		}
+
+		template<class Type>
+		void announce_dtor(Type const* obj)
+		{
+			if(m_remaining_dtor_expects == 0)
+			{
+				fprintf(stderr, "error: %p unexpected destructor\n", obj);
+				fflush(stderr);
+				std::terminate();
+			}
+
+			--m_remaining_init_expects;
+			--m_remaining_dtor_expects;
 		}
 
 		template<class Type>
@@ -155,7 +169,7 @@ namespace testfwk
 	public:
 		template<class ... Args>
 		lifetime_checker(Args&&... args): m_value{std::forward<Args>(args)...}
-		{ s_known_objects.announce_object_initiated(this); }
+		{ s_known_objects.announce_ctor(this); }
 
 		lifetime_checker(lifetime_checker&& other) noexcept: m_value{std::move(other.m_value)}
 		{ s_known_objects.announce_move_ctor(other, this); }
@@ -178,7 +192,7 @@ namespace testfwk
 		}
 
 		~lifetime_checker()
-		{ s_known_objects.announce_destructor(this); }
+		{ s_known_objects.announce_dtor(this); }
 
 		operator T const&() const
 		{ return m_value; }
@@ -188,20 +202,20 @@ namespace testfwk
 
 		auto operator<=>(lifetime_checker const& other) const = default;
 
-		static void expect_object_initiated()
-		{	object_registry::expect_object_initiated(); }
+		static void expect_object_ctor()
+		{	s_known_objects.expect_object_ctor(); }
 
 		static void expect_move_ctor()
-		{ object_registry::expect_move_ctor(); }
+		{ s_known_objects.expect_move_ctor(); }
 
 		static void expect_copy_ctor()
-		{ object_registry::expect_copy_ctor(); }
+		{ s_known_objects.expect_copy_ctor(); }
 
 		static void expect_move_assign()
-		{ object_registry::expect_move_assign(); }
+		{ s_known_objects.expect_move_assign(); }
 
 		static void expect_copy_assign()
-		{ object_registry::expect_copy_assign(); }
+		{ s_known_objects.expect_copy_assign(); }
 
 	private:
 		T m_value;
