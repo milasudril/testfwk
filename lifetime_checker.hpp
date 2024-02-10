@@ -220,6 +220,9 @@ namespace testfwk
 		T m_value;
 		static object_registry s_known_objects;
 	};
+
+	template<class T>
+	constinit object_registry lifetime_checker<T>::s_known_objects;
 }
 
 #endif
