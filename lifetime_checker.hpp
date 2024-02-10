@@ -92,20 +92,20 @@ namespace testfwk
 			++m_remaining_dtor_expects;
 		}
 
-		void expect_ctor()
-		{	++m_remaining_ctor_expects; }
+		void expect_ctor(size_t count = 1)
+		{	m_remaining_ctor_expects += count; }
 
-		void expect_move_ctor()
-		{ ++m_remaining_move_ctor_expects; }
+		void expect_move_ctor(size_t count = 1)
+		{ m_remaining_move_ctor_expects += count; }
 
-		void expect_copy_ctor()
-		{ ++m_remaining_copy_ctor_expects; }
+		void expect_copy_ctor(size_t count = 1)
+		{ m_remaining_copy_ctor_expects += count; }
 
-		void expect_move_assign()
-		{ ++m_remaining_move_assign_expects; }
+		void expect_move_assign(size_t count = 1)
+		{ m_remaining_move_assign_expects += count; }
 
-		void expect_copy_assign()
-		{ ++m_remaining_copy_assign_expects; }
+		void expect_copy_assign(size_t count = 1)
+		{ m_remaining_copy_assign_expects += count; }
 
 		~object_registry()
 		{
@@ -201,20 +201,20 @@ namespace testfwk
 
 		auto operator<=>(lifetime_checker const& other) const = default;
 
-		static void expect_ctor()
-		{	s_known_objects.expect_ctor(); }
+		static void expect_ctor(size_t count = 1)
+		{	s_known_objects.expect_ctor(count); }
 
-		static void expect_move_ctor()
-		{ s_known_objects.expect_move_ctor(); }
+		static void expect_move_ctor(size_t count = 1)
+		{ s_known_objects.expect_move_ctor(count); }
 
-		static void expect_copy_ctor()
-		{ s_known_objects.expect_copy_ctor(); }
+		static void expect_copy_ctor(size_t count = 1)
+		{ s_known_objects.expect_copy_ctor(count); }
 
-		static void expect_move_assign()
-		{ s_known_objects.expect_move_assign(); }
+		static void expect_move_assign(size_t count = 1)
+		{ s_known_objects.expect_move_assign(count); }
 
-		static void expect_copy_assign()
-		{ s_known_objects.expect_copy_assign(); }
+		static void expect_copy_assign(size_t count = 1)
+		{ s_known_objects.expect_copy_assign(count); }
 
 	private:
 		T m_value;
