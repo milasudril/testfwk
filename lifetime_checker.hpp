@@ -201,7 +201,7 @@ namespace testfwk
 
 		auto operator<=>(lifetime_checker const& other) const = default;
 
-		static void expect_object_ctor()
+		static void expect_ctor()
 		{	s_known_objects.expect_ctor(); }
 
 		static void expect_move_ctor()
