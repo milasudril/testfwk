@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <exception>
+#include <type_traits>
 
 namespace testfwk
 {
@@ -166,8 +167,12 @@ namespace testfwk
 	class lifetime_checker
 	{
 	public:
-		template<class ... Args>
-		lifetime_checker(Args&&... args): m_value{std::forward<Args>(args)...}
+		lifetime_checker():m_value{}
+		{ s_known_objects.announce_ctor(this); }
+
+		template<class First, class ... Args>
+		requires(!std::is_same_v<std::decay_t<First>, lifetime_checker<T>>)
+		lifetime_checker(First&& first, Args&&... args): m_value{std::forward<First>(first), std::forward<Args>(args)...}
 		{ s_known_objects.announce_ctor(this); }
 
 		lifetime_checker(lifetime_checker&& other) noexcept: m_value{std::move(other.m_value)}
