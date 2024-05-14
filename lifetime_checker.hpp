@@ -76,7 +76,6 @@ namespace testfwk
 			}
 
 			--m_remaining_move_assign_expects;
-			++m_remaining_dtor_expects;
 		}
 
 		template<class Type>
