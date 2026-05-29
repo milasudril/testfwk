@@ -111,35 +111,35 @@ namespace testfwk
 		{
 			if(m_remaining_ctor_expects != 0)
 			{
-				fprintf(stderr, "error: Exepcted %zu more objects\n", m_remaining_ctor_expects);
+				fprintf(stderr, "error: Expected %zu more objects\n", m_remaining_ctor_expects);
 				fflush(stderr);
 				std::terminate();
 			}
 
 			if(m_remaining_move_ctor_expects != 0)
 			{
-				fprintf(stderr, "error: Exepcted %zu more move ctor\n", m_remaining_move_ctor_expects);
+				fprintf(stderr, "error: Expected %zu more move ctor\n", m_remaining_move_ctor_expects);
 				fflush(stderr);
 				std::terminate();
 			}
 
 			if(m_remaining_copy_ctor_expects != 0)
 			{
-				fprintf(stderr, "error: Exepcted %zu more copy ctor\n", m_remaining_copy_ctor_expects);
+				fprintf(stderr, "error: Expected %zu more copy ctor\n", m_remaining_copy_ctor_expects);
 				fflush(stderr);
 				std::terminate();
 			}
 
 			if(m_remaining_move_assign_expects != 0)
 			{
-				fprintf(stderr, "error: Exepcted %zu more move assign\n", m_remaining_move_assign_expects);
+				fprintf(stderr, "error: Expected %zu more move assign\n", m_remaining_move_assign_expects);
 				fflush(stderr);
 				std::terminate();
 			}
 
 			if(m_remaining_copy_assign_expects != 0)
 			{
-				fprintf(stderr, "error: Exepcted %zu more copy assign\n", m_remaining_copy_assign_expects);
+				fprintf(stderr, "error: Expected %zu more copy assign\n", m_remaining_copy_assign_expects);
 				fflush(stderr);
 				std::terminate();
 			}
