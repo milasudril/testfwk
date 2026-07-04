@@ -4,7 +4,7 @@
 
 TESTCASE(SuccessfulTestcase) { EXPECT_OP(1, ==, 1); }
 
-#if 0
+#ifdef DO_TEST_FAILED_TESTCASE
 TESTCASE(FailingTestcase)
 {
 	EXPECT_OP(1, ==, 2);
