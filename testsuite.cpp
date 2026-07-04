@@ -23,7 +23,7 @@ TestFwk::Testcase* TestFwk::currentTestcase;
 
 int main()
 {
-	if(testcases().size() == 0) { fprintf(stderr, "Warning: Testsuite has no testcases\n"); }
+	if(testcases().empty()) { fprintf(stderr, "Warning: Testsuite has no testcases\n"); }
 
 	auto const n = static_cast<size_t>(std::count_if(std::begin(testcases()),
 	                         std::end(testcases()),
@@ -41,5 +41,5 @@ int main()
 		        testcases().size());
 	}
 
-	return !(n == testcases().size());
+	return static_cast<int>(!(n == testcases().size()));
 }
