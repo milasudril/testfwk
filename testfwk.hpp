@@ -3,5 +3,6 @@
 
 #include "./validation.hpp"
 #include "./testsuite.hpp"
+#include "./death_test.hpp"
 
 #endif
